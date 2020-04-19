@@ -23,25 +23,22 @@ const notes = require('./notes.js');
 
 const argv = yargs.argv;
 
-console.log('Process walle : ',process.argv);
-console.log('Yargs walle: ',argv);
+// console.log('Process walle : ',process.argv);
+// console.log('Yargs walle: ',argv);
 
-// var command = process.argv[2];
+var command = process.argv[2];
 // console.log(command);
 
 
-
-
-
-
-// if(command==='add'){
-//     console.log('Add New Note');
-// }else if(command==='list'){
-//     console.log('Listing Notes');
-// }else if(command==='read'){
-//     console.log('Reading Note');
-// }else if(command==='remove'){
-//     console.log('Removing Notes');
-// }else{
-//     console.log('Command Not Recognized');
-// }
+if(command==='add'){
+    // console.log('Add New Note');
+    notes.addNote(argv.title,argv.body);
+}else if(command==='list'){
+    notes.getAll();
+}else if(command==='read'){
+    notes.readNote(argv.title);
+}else if(command==='remove'){
+    notes.removeNote(argv.title);
+}else{
+    console.log('Command Not Recognized');
+}
