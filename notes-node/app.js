@@ -32,13 +32,25 @@ var command = process.argv[2];
 
 if(command==='add'){
     // console.log('Add New Note');
-    notes.addNote(argv.title,argv.body);
+    var note = notes.addNote(argv.title,argv.body);
+    if(note){
+        console.log("Note Succesfully added");
+        console.log(`Title : ${note.title}`);
+        console.log(`Title : ${note.body}`);
+
+    }else{
+        console.log("Notes with same title already exist");
+    }
+
 }else if(command==='list'){
     notes.getAll();
+
 }else if(command==='read'){
     notes.readNote(argv.title);
+
 }else if(command==='remove'){
     notes.removeNote(argv.title);
+
 }else{
     console.log('Command Not Recognized');
 }
