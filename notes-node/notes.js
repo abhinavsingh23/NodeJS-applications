@@ -42,7 +42,8 @@ var addNote = (title,body) => {
 
     //********************************** To check if duplicate title note is added ***************************************** //
     var duplicateNotes = notes.filter((note) =>{                
-            return note.title ===title;
+        
+        return note.title ===title;
 
     }); 
     //***************************************************************************************************** */
@@ -61,23 +62,57 @@ var addNote = (title,body) => {
 
 var getAll = () => {
 
-    console.log("Getting All Notes");
+    // console.log("Getting All Notes");
+
+    return fetchNotes();
+
+
+
 
 };
 
 var readNote = (title) => {
 
-    console.log("Reading Notes named :",title);
+    // console.log("Reading Notes named :",title);
+
+    var notes = fetchNotes();
+
+    var requiredNote = notes.filter((note) =>{                
+        
+        return note.title === title;
+
+    }); 
+
+    return requiredNote[0];
+
+
 
 };
 var removeNote = (title) => {
 
-    console.log("Removing Notes named :",title);
+    // console.log("Removing Notes named :",title);
 
+    notes = fetchNotes();
+
+    var filterNotes = notes.filter((note) =>{                
+        
+        return note.title !== title;
+
+    }); 
+
+    saveNotes(filterNotes);
+
+    return (notes.length != filterNotes.length);
 };
 
 
+var logNote = (note) => {
 
+    console.log(`Title : ${note.title}`);
+    console.log(`Body : ${note.body}`);
+
+
+}
 
 
 module.exports = {
@@ -85,7 +120,8 @@ module.exports = {
     addNote,
     getAll,
     readNote,
-    removeNote                                                // addNote: addNote is equivalent to addNote
+    removeNote,
+    logNote                                        // addNote: addNote is equivalent to addNote
 
  
 

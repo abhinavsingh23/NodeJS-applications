@@ -20,36 +20,74 @@ const notes = require('./notes.js');
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-
-const argv = yargs.argv;
+//// Just to be DRY///////
+const titleOptions =  {
+    describe: 'Title of note',
+    demand: true,
+    alias: 't'
+};
+const bodyOptions =  {
+    describe: 'Body of note',
+    demand: true,
+    alias: 'b'
+}
+//////////////////////////
+const argv = yargs
+    .command('add', 'Add a New Note',{
+        title: titleOptions,
+        body : bodyOptions
+    })
+    .command('list', 'List All Notes')
+    .command('read', 'Read a Note',{
+        title: titleOptions
+    })
+    .command('remove', 'Delete a Note',{
+        title: titleOptions
+    })
+    .help()
+    .argv;
 
 // console.log('Process walle : ',process.argv);
 // console.log('Yargs walle: ',argv);
-
-var command = process.argv[2];
 // console.log(command);
+var command = argv._[0];
 
 
 if(command==='add'){
     // console.log('Add New Note');
     var note = notes.addNote(argv.title,argv.body);
+
     if(note){
-        console.log("Note Succesfully added");
-        console.log(`Title : ${note.title}`);
-        console.log(`Title : ${note.body}`);
-
+        notes.logNote(note);
     }else{
-        console.log("Notes with same title already exist");
+        console.log("Note with same title already exist");
     }
-
 }else if(command==='list'){
-    notes.getAll();
+    var allNotes = notes.getAll();
+
+    console.log(`Printing ${allNotes.length} Note(s)`);
+
+    allNotes.forEach((note) => notes.logNote(note));
+
+
+
 
 }else if(command==='read'){
-    notes.readNote(argv.title);
+
+    var  note = notes.readNote(argv.title);
+
+    if(note){
+        notes.logNote(note);
+    }else{
+        console.log("Note Not Found");
+    }
 
 }else if(command==='remove'){
-    notes.removeNote(argv.title);
+    var noteRemoved = notes.removeNote(argv.title);
+
+    var message = noteRemoved ? 'Note was removed' : 'Note not found';
+
+    console.log(message);
 
 }else{
     console.log('Command Not Recognized');
